@@ -1,9 +1,41 @@
+(setq my-packages '(
+                    js2-mode
+                    markdown-mode
+                    tool-bar\+
+                    whitespace-cleanup-mode
+                    web-mode
+                    ))
+
 (require 'package)
 (package-initialize)
 (add-to-list 'package-archives `("melpa" . "https://melpa.org/packages/"))
-
-;; NOTE: In case of MELPA problems, the official mirror URL is
+;; Note: In case of MELPA problems, the official mirror URL is
 ;; https://www.mirrorservice.org/sites/stable.melpa.org/packages/
+
+;; Install any packages in my-packages, if they are not installed already.
+(let ((refreshed nil))
+  (when (not package-archive-contents)
+    (package-refresh-contents)
+    (setq refreshed t))
+  (dolist (pkg my-packages)
+    (when (and (not (package-installed-p pkg))
+               (assoc pkg package-archive-contents))
+      (unless refreshed
+        (package-refresh-contents)
+        (setq refreshed t))
+      (package-install pkg))))
+
+(require 'cl-lib)
+(defun package-list-unaccounted-packages ()
+  "Like `package-list-packages', but shows only the packages that
+  are installed and are not in `my-packages'.  Useful for
+  cleaning out unwanted packages."
+    (interactive)
+    (package-show-package-list
+     (remove-if-not (lambda (x) (and (not (memq x my-packages))
+                                     (not (package-built-in-p x))
+                                     (package-installed-p x)))
+                    (mapcar 'car package-archive-contents))))
 
 ;; Enable mouse support.
 (defun mouse-support-in-term (frame)
@@ -73,6 +105,7 @@
  column-number-mode t
  indent-tabs-mode nil
  scroll-preserve-screen-position 'always
+ fill-column 78
  truncate-lines nil)
 
 ;; Whitespaces.

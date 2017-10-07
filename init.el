@@ -1,11 +1,17 @@
+;; Emacs configuration.
+
+;; List of packages that need to be installed.
 (setq my-packages '(
-                    go-mode
+                    flycheck
                     ggtags
+                    go-mode
                     js2-mode
                     markdown-mode
                     tool-bar\+
-                    whitespace-cleanup-mode
                     web-mode
+                    docker-compose-mode
+                    whitespace-cleanup-mode
+                    yaml-mode
                     ))
 
 (require 'package)
@@ -27,7 +33,6 @@
         (setq refreshed t))
       (package-install pkg))))
 
-(require 'cl)
 (require 'cl-lib)
 (defun package-list-unaccounted-packages ()
   "Like `package-list-packages', but shows only the packages that
@@ -35,7 +40,7 @@
   cleaning out unwanted packages."
   (interactive)
   (package-show-package-list
-   (remove-if-not (lambda (x) (and (not (memq x my-packages))
+   (cl-remove-if-not (lambda (x) (and (not (memq x my-packages))
                                    (not (package-built-in-p x))
                                    (package-installed-p x)))
                   (mapcar 'car package-archive-contents))))
@@ -62,7 +67,6 @@
 (mouse-support-in-term nil)
 
 ;; Tabbar...
-(setq tabbar-ruler-global-tabbar t)  ; If you want tabbar
 (when (fboundp 'tool-bar-mode) (tool-bar-mode -1)) ; disable toolbar
 
 ;; Backup dirs.
@@ -119,13 +123,27 @@
 (show-paren-mode 1)
 
 ;; save a list of open files in ~/.emacs.d/.emacs.desktop.
+(require 'desktop)
 (setq desktop-path (list user-emacs-directory)
       desktop-auto-save-timeout 600)
 (desktop-save-mode 1)
+
+(require 'flycheck)
+(add-hook 'after-init-hook #'global-flycheck-mode)
+(setq flycheck-emacs-lisp-load-path 'inherit)
+
+;; Load additional configs.
+(add-to-list 'load-path (expand-file-name "lisp/" user-emacs-directory))
+(require 'init-javascript)
 
 ;; Allow access from emacsclient.
 (require 'server)
 (unless (server-running-p)
     (server-start))
 
+(message "All done, happy hacking 😺 ")
 (provide 'init)
+
+;; Local Variables:
+;; flycheck-disabled-checkers: (emacs-lisp-checkdoc)
+;; End:

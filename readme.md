@@ -1,8 +1,10 @@
 My emacs configuration.
 =======================
 
-Inspired by https://github.com/purcell/emacs.d, although I keep it simple and
+Inspired by [Purcell emacs config][], although I keep it simple and
 minimalistic.
+
+[Purcell emacs config]: https://github.com/purcell/emacs.d
 
 Here are usefull key bindings that I sometimes forget :)
 
@@ -19,7 +21,7 @@ C-M-SPC | mark-sexp           | Put the mark at the end of the sexp.
 C-x (   |                     | Start defining a keyboard macro
 C-x )   |                     | Stop defining a keyboard macro
 C-x e   |                     | Execute the keyboard macro (C-u 0 C-x e)
--       | name-last-kbd-macro | Name the last-defined keyboard macro.
--       | insert-kbd-macro    | Insert a named keyboard macro at point.
+---     | name-last-kbd-macro | Name the last-defined keyboard macro.
+---     | insert-kbd-macro    | Insert a named keyboard macro at point.
 
 Happy coding 😺

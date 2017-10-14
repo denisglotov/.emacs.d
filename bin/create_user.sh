@@ -1,8 +1,18 @@
 #!/bin/bash
 #
-# Create user with sudo rights and empty password. This script is idempotent -
-# duplicate runs make no effect.
+# Create user with sudo rights, empty password and given ssh key access. This
+# script is idempotent - duplicate runs make no effect.
 #
+# Run it remorely:
+# ssh remote_host [-p 2222] [-l existing_user] \
+#    bash -s -- new_user \"$(cat ~/.ssh/id_rsa.pub)\" <bin/create_user.sh
+#
+
+if ! sudo -v; then
+    echo "Sudo does not work for this user, $USER."
+    echo "Maybe it needs a passowd?.."
+    exit -2
+fi
 
 if [ "$#" -ge 3 ]; then
     echo "Incorrect number of arguments: did you forget to quote your SSH key?"
@@ -21,6 +31,7 @@ else
     printf "$NEWUSER\tALL=(ALL) NOPASSWD:ALL\n" | sudo tee -a /etc/sudoers
 fi
 
+# Commands to be run for new user to set up access key.
 read -r -d '' CMD <<-END
 if [ ! -d ~/.ssh ]; then
     echo "Creating ~/.ssh..."
@@ -34,6 +45,7 @@ else
 fi
 chmod 600 ~/.ssh/authorized_keys
 END
+
 if [ "$SSH_KEY" ]; then
     sudo -Hu $NEWUSER bash -c "$CMD"
 else

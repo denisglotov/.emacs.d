@@ -3,13 +3,14 @@
 ;; List of packages that need to be installed.
 (setq my-packages '(
                     flycheck
+                    docker-compose-mode
                     ggtags
                     go-mode
                     js2-mode
                     markdown-mode
+                    solidity-mode
                     tool-bar\+
                     web-mode
-                    docker-compose-mode
                     whitespace-cleanup-mode
                     yaml-mode
                     ))
@@ -135,6 +136,7 @@
 ;; Load additional configs.
 (add-to-list 'load-path (expand-file-name "lisp/" user-emacs-directory))
 (require 'init-javascript)
+(require 'init-solidity)
 
 ;; Allow access from emacsclient.
 (require 'server)

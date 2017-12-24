@@ -16,7 +16,7 @@
       (setq-local flycheck-javascript-eslint-executable eslint))))
 
 (with-eval-after-load 'js2-mode
-  (setq-default js2-basic-offset 4
+  (setq-default js2-basic-offset 2
                 js2-bounce-indent-p nil
                 js2-strict-trailing-comma-warning nil)
 

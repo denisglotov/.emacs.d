@@ -7,3 +7,4 @@ EMACS_CMD=(
 alias e="${EMACS_CMD[@]}"
 export EDITOR="emacsclient -nw -a nano"
 export VISUAL="emacsclient -c -a nano"
+export GOPATH=$HOME

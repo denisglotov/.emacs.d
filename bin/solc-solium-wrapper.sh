@@ -5,5 +5,5 @@
 
 #echo $1 >>/tmp/solc-solium-wrapper.log
 set -e
-solc $1
+solc $1 github.com=..
 cd $(dirname $1) && solium -R gcc -c .soliumrc.json -f $(basename $1)

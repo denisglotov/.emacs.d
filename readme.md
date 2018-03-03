@@ -12,14 +12,15 @@ Tools
 
 Additional tools worth installing
 
-Tool         |  Command                          |  Used by
------------- | --------------------------------- | ----------------------------
-[Ispell][]   | `sudo apt-get install ispell`     | M-x ispell
-[Solium][]   | `sudo npm install solium -g`      | fly-check .sol files
+Tool         |  Command                               |  Used by
+------------ | -------------------------------------- | -----------------------
+[Ispell][]   | `sudo apt-get install ispell`          | M-x ispell
+[Solium][]   | `sudo npm install solium -g`           | fly-check .sol files
+[golint][]   | `go get -u golang.org/x/lint/golint`   | M-x golint
 
 [Ispell]: https://www.gnu.org/software/ispell/
 [Solium]: https://github.com/duaraghav8/Solium
-
+[golint]: https://github.com/golang/lint
 
 Keys
 ----

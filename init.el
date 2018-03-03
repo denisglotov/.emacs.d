@@ -6,6 +6,7 @@
                     docker-compose-mode
                     ggtags
                     go-mode
+                    go-lint
                     js2-mode
                     markdown-mode
                     solidity-mode
@@ -122,6 +123,7 @@
 
 ;; Show matching parens.
 (show-paren-mode 1)
+(ido-mode 1)
 
 ;; save a list of open files in ~/.emacs.d/.emacs.desktop.
 (require 'desktop)
@@ -135,6 +137,7 @@
 
 ;; Load additional configs.
 (add-to-list 'load-path (expand-file-name "lisp/" user-emacs-directory))
+(require 'init-go)
 (require 'init-javascript)
 (require 'init-solidity)
 

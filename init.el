@@ -6,7 +6,7 @@
                     docker-compose-mode
                     ggtags
                     go-mode
-                    go-lint
+                    golint
                     js2-mode
                     markdown-mode
                     solidity-mode

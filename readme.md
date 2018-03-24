@@ -14,13 +14,16 @@ Additional tools worth installing
 
 Tool         |  Command                               |  Used by
 ------------ | -------------------------------------- | -----------------------
-[Ispell][]   | `sudo apt-get install ispell`          | M-x ispell
-[Solium][]   | `sudo npm install solium -g`           | fly-check .sol files
-[golint][]   | `go get -u golang.org/x/lint/golint`   | M-x golint
+[Ispell][]   | `sudo apt-get install ispell`          | `M-x ispell`
+[Solium][]   | `sudo npm install solium -g`           | flycheck Solidity code
+[golint][]   | `go get -u golang.org/x/lint/golint`   | `M-x golint`
+[flake8][]   | `python -m pip install flake8`         | flycheck Python code
 
 [Ispell]: https://www.gnu.org/software/ispell/
 [Solium]: https://github.com/duaraghav8/Solium
 [golint]: https://github.com/golang/lint
+[flake8]: http://flake8.pycqa.org/en/latest/
+
 
 Keys
 ----

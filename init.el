@@ -95,6 +95,14 @@
     (back-to-indentation)
     (kill-region (point) prev-pos)))
 
+(defun copy-current-line-position-to-clipboard ()
+  "Copy current line in file to clipboard as '</path/to/file>:<line-number>'"
+  (interactive)
+  (let ((path-with-line-number
+         (concat (buffer-file-name) ":" (number-to-string (line-number-at-pos)))))
+    (kill-new path-with-line-number)
+    (message (concat path-with-line-number " copied to clipboard"))))
+
 ;; Custom keys mapping.
 (global-set-key [C-up] (lambda () (interactive) (scroll-up 1)) )
 (global-set-key [C-down] (lambda () (interactive) (scroll-down 1)) )
@@ -108,6 +116,7 @@
 (global-set-key (kbd "<f6>") 'recompile)
 (global-set-key (kbd "C-M-<backspace>") 'kill-back-to-indentation)
 (global-set-key [remap just-one-space] 'cycle-spacing)
+(global-set-key (kbd "M-l") 'copy-current-line-position-to-clipboard)
 
 ;; Basic defaults.
 (setq-default

@@ -30,4 +30,4 @@
   ;; name the mode more concise
   (add-hook 'js2-mode-hook (lambda () (setq mode-name "JS2"))))
 
-(provide `init-javascript)
+(provide 'init-javascript)

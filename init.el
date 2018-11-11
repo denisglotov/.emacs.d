@@ -1,25 +1,26 @@
-;; Emacs configuration.
+;;; init.el --- Initialization file for Emacs
 
-;; List of packages that need to be installed.
-(setq my-packages '(
-                    flycheck
-                    docker-compose-mode
-                    ggtags
-                    go-mode
-                    golint
-                    js2-mode
-                    markdown-mode
-                    solidity-mode
-                    tool-bar\+
-                    web-mode
-                    whitespace-cleanup-mode
-                    yaml-mode
-                    ))
+(defvar my-packages
+  '(
+    docker-compose-mode
+    flycheck
+    ggtags
+    go-autocomplete
+    go-eldoc
+    go-guru
+    go-mode
+    js2-mode
+    markdown-mode
+    solidity-mode
+    tool-bar+
+    web-mode
+    whitespace-cleanup-mode
+    yaml-mode
+    )
+  )
 
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
-;; Note: In case of MELPA problems, the official mirror URL is
-;; https://www.mirrorservice.org/sites/stable.melpa.org/packages/
 (package-initialize)
 
 ;; Install any packages in my-packages, if they are not installed already.
@@ -37,15 +38,14 @@
 
 (require 'cl-lib)
 (defun package-list-unaccounted-packages ()
-  "Like `package-list-packages', but shows only the packages that
-  are installed and are not in `my-packages'.  Useful for
-  cleaning out unwanted packages."
+  "Show only the packages that are installed and are not in
+  my-packages list. Useful for cleaning out unwanted packages."
   (interactive)
   (package-show-package-list
    (cl-remove-if-not (lambda (x) (and (not (memq x my-packages))
-                                   (not (package-built-in-p x))
-                                   (package-installed-p x)))
-                  (mapcar 'car package-archive-contents))))
+                                      (not (package-built-in-p x))
+                                      (package-installed-p x)))
+                     (mapcar 'car package-archive-contents))))
 
 ;; Enable mouse support.
 (defun mouse-support-in-term (frame)
@@ -59,7 +59,6 @@
                                 (interactive)
                                 (scroll-up 1)))
     (defun track-mouse (e))
-    (setq mouse-sel-mode t)
 
     (menu-bar-mode -1)  ; hide menu
     ))
@@ -73,7 +72,7 @@
 
 ;; Backup dirs.
 (setq backup-directory-alist
-      `((".*" . ,temporary-file-directory)))
+      '((".*" . "~/.emacs-saves")))
 (setq auto-save-file-name-transforms
       `((".*" ,temporary-file-directory t)))
 
@@ -96,7 +95,7 @@
     (kill-region (point) prev-pos)))
 
 (defun copy-current-line-position-to-clipboard ()
-  "Copy current line in file to clipboard as '</path/to/file>:<line-number>'"
+  "Copy current line in file to clipboard as '</path/to/file>:<line-number>'."
   (interactive)
   (let ((path-with-line-number
          (concat (buffer-file-name) ":" (number-to-string (line-number-at-pos)))))
@@ -124,7 +123,8 @@
  indent-tabs-mode nil
  scroll-preserve-screen-position 'always
  fill-column 78
- truncate-lines nil)
+ truncate-lines nil
+ ring-bell-function 'ignore)
 
 ;; Whitespaces.
 (require 'whitespace-cleanup-mode)

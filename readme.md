@@ -10,25 +10,28 @@ minimalistic.
 Tools
 -----
 
-Additional tools worth installing
+Specific tools needed for developing in some language are installed by the
+corresponding [bin](bin/) installer.
+
+For Go, see http://golang.org/s/using-guru.
+
+Additional handy tools (not yet sorted):
 
 Tool         |  Command                               |  Used by
 ------------ | -------------------------------------- | -----------------------
 [Ispell][]   | `sudo apt-get install ispell`          | `M-x ispell`
 [Solium][]   | `sudo npm install solium -g`           | flycheck Solidity code
-[golint][]   | `go get -u golang.org/x/lint/golint`   | `M-x golint`
 [flake8][]   | `python -m pip install flake8`         | flycheck Python code
 
 [Ispell]: https://www.gnu.org/software/ispell/
 [Solium]: https://github.com/duaraghav8/Solium
-[golint]: https://github.com/golang/lint
 [flake8]: http://flake8.pycqa.org/en/latest/
 
 
 Keys
 ----
 
-Here are usefull key bindings that I sometimes forget :)
+Here are useful key bindings that I sometimes forget :)
 
 Keys    | Command                 | Description
 ------- | ----------------------- | -------------------------------------------

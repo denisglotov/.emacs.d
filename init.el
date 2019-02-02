@@ -9,6 +9,7 @@
     go-eldoc
     go-guru
     go-mode
+    golint
     js2-mode
     markdown-mode
     solidity-mode

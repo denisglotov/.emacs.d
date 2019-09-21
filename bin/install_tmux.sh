@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-TMUX_TAG="$1" || "2.9a"
+[ "$1" ] && TMUX_TAG="$1" || TMUX_TAG="2.9a"
 
 if command -v tmux >/dev/null; then
     echo "[Warning] $(tmux -V) already installed. Skipping."

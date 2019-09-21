@@ -2,7 +2,7 @@ language: minimal
 
 os:
   - linux
-  - osx
+#  - osx
 
 script:
   bin/install_tmux.sh --ignore-existing

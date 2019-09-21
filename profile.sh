@@ -8,3 +8,8 @@ alias e="${EMACS_CMD[@]}"
 export EDITOR="emacsclient -nw -a nano"
 export VISUAL="emacsclient -c -a nano"
 export GOPATH=$HOME
+
+if [ -z "$SSH_AUTH_SOCK" ] ; then
+    eval $(ssh-agent)
+    ssh-add
+fi

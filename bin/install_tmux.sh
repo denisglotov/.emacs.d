@@ -19,7 +19,7 @@ echo "Building tmux..."
 # Needs aclocal, yacc, automake, autoreconf, libevent
 sudo apt install autotools-dev automake bison libevent-dev libncurses-dev
 sh autogen.sh
-./configure --prefix=$HOME && make && make instal
+./configure --prefix=$HOME && make && make install
 
 
 # git clone https://github.com/tmux-plugins/tmux-resurrect.git ~/tmux-resurrect

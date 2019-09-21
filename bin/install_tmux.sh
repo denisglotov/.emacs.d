@@ -12,8 +12,8 @@ else
 
     echo
     echo "Building tmux..."
-    # Needs aclocal, yacc, automake, autoreconf
-    sudo apt install autotools-dev automake bison
+    # Needs aclocal, yacc, automake, autoreconf, libevent
+    sudo apt install autotools-dev automake bison libevent-dev libncurses-dev
     sh autogen.sh
     ./configure && make
     [ -d ~/bin ] || mkdir ~/bin

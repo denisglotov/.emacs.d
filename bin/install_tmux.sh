@@ -25,10 +25,32 @@ die() {
     exit 1
 }
 
-if [ -z "$SKIP_BUILD" ]; then
-    [ ! -v IGNORE ] && command -v tmux >/dev/null &&
-        die "[Error] $(tmux -V) already installed."
+check() {
+    command -v $1 >/dev/null
+}
 
+libcheck() {
+    ldconfig -p | grep libjpeg >/dev/null
+}
+
+if [ -z "$SKIP_BUILD" ]; then
+    [ ! -v IGNORE ] && check tmux && die "[Error] $(tmux -V) already installed."
+
+    if check aclocal && check yacc && check automake; then
+        echo "[Info] All build tools are installed."
+    else
+        echo "Need to install build tools with sudo..."
+        sudo apt install autotools-dev automake bison
+    fi
+
+    if libcheck libevent && libcheck libncurses; then
+        echo "[Info] All libraries are installed."
+    else
+        echo "Need to install libraries with sudo..."
+        sudo apt install libevent-dev libncurses-dev
+    fi
+
+    echo
     echo "Installing tmux $TMUX_TAG..."
     [ -d /tmp/tmux ] || git clone https://github.com/tmux/tmux.git /tmp/tmux
     cd /tmp/tmux
@@ -36,8 +58,6 @@ if [ -z "$SKIP_BUILD" ]; then
 
     echo
     echo "Building tmux..."
-    # Needs aclocal, yacc, automake, autoreconf, libevent
-    # sudo apt install autotools-dev automake bison libevent-dev libncurses-dev
     sh autogen.sh
     ./configure --prefix=$HOME && make && make install
 fi

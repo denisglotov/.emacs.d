@@ -1,8 +1,7 @@
-language: python
+language: generic
 
 os:
   - linux
-  - osx
 
 script:
   bin/install_tmux.sh --ignore-existing

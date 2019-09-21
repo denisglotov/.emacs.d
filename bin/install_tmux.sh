@@ -2,23 +2,25 @@
 
 [ "$1" ] && TMUX_TAG="$1" || TMUX_TAG="2.9a"
 
-if command -v tmux >/dev/null; then
-    echo "[Warning] $(tmux -V) already installed. Skipping."
-else
-    echo "Installing tmux $TMUX_TAG..."
-    git clone https://github.com/tmux/tmux.git /tmp/tmux
-    cd /tmp/tmux
-    git checkout "$TMUX_TAG"
+die() {
+    echo $1 >&2
+    exit 1
+}
 
-    echo
-    echo "Building tmux..."
-    # Needs aclocal, yacc, automake, autoreconf, libevent
-    sudo apt install autotools-dev automake bison libevent-dev libncurses-dev
-    sh autogen.sh
-    ./configure && make
-    [ -d ~/bin ] || mkdir ~/bin
-    cp tmux ~/bin/tmux
-fi
+command -v tmux >/dev/null && die "[Error] $(tmux -V) already installed."
+
+echo "Installing tmux $TMUX_TAG..."
+git clone https://github.com/tmux/tmux.git /tmp/tmux
+cd /tmp/tmux
+git checkout "$TMUX_TAG"
+
+echo
+echo "Building tmux..."
+# Needs aclocal, yacc, automake, autoreconf, libevent
+sudo apt install autotools-dev automake bison libevent-dev libncurses-dev
+sh autogen.sh
+./configure --prefix=$HOME && make && make instal
+
 
 # git clone https://github.com/tmux-plugins/tmux-resurrect.git ~/tmux-resurrect
 

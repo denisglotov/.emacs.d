@@ -1,7 +1,11 @@
-My emacs configuration.
-=======================
+My emacs configuration
+======================
 
-Inspired by [Purcell emacs config][], although I keep it simple and
+[![Build status]](https://travis-ci.org/denisglotov/.emacs.d)
+
+[Build status]: https://travis-ci.org/denisglotov/.emacs.d.svg?branch=master
+
+Inspired by [Purcell emacs config], although I keep it simple and
 minimalistic.
 
 [Purcell emacs config]: https://github.com/purcell/emacs.d

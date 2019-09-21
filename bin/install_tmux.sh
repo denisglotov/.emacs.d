@@ -1,12 +1,62 @@
-#!/bin/bash
+#!/bin/bash -e
 
-git clone https://github.com/tmux-plugins/tmux-resurrect.git ~/tmux-resurrect
+while [[ $# -gt 0 ]]; do
+case $1 in
+    -i|--ignore-existing)
+        IGNORE=1
+        echo "[Warning] Ignoring existing tmux if any."
+        shift
+        ;;
+    -s|--skip-tmux-build)
+        SKIP_BUILD=1
+        echo "[Warning] Skipping tmux build"
+        shift
+        ;;
+    --)
+        shift
+        ;;
+esac
+done
 
-[ -f ~/.tmux.conf ] &&
-    echo "(!) Backing up .tmux.conf here..." &&
-    mv ~/.tmux.conf .tmux.conf.old
+[ "$1" ] && TMUX_TAG="$1" || TMUX_TAG="2.9a"
 
+die() {
+    echo $1 >&2
+    exit 1
+}
+
+if [ -z "$SKIP_BUILD" ]; then
+    [ ! -v IGNORE ] && command -v tmux >/dev/null &&
+        die "[Error] $(tmux -V) already installed."
+
+    echo "Installing tmux $TMUX_TAG..."
+    [ -d /tmp/tmux ] || git clone https://github.com/tmux/tmux.git /tmp/tmux
+    cd /tmp/tmux
+    git checkout "$TMUX_TAG"
+
+    echo
+    echo "Building tmux..."
+    # Needs aclocal, yacc, automake, autoreconf, libevent
+    sudo apt install autotools-dev automake bison libevent-dev libncurses-dev
+    sh autogen.sh
+    ./configure --prefix=$HOME && make && make install
+fi
+
+echo
+echo "Installing tmux plugins..."
+[ -d ~/.tmux/plugins/tpm ] ||
+    git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+
+echo
+echo "Composing .tmux.config..."
+if [ -f ~/.tmux.conf ]; then
+    echo "[Warning] Backing up .tmux.conf here..." &&
+    mv ~/.tmux.conf ~/.tmux.conf.old
+fi
 cat >~/.tmux.conf <<EOF
+set -g @plugin 'tmux-plugins/tpm'
+set -g @plugin 'tmux-plugins/tmux-resurrect'
+
 set -g default-terminal "screen-256color"
 set -g mouse on
 
@@ -14,12 +64,10 @@ set -g status-fg colour006
 set -g status-bg blue
 
 set -g @resurrect-save-shell-history 'on'
-run-shell ~/tmux-resurrect/resurrect.tmux
+
+# Initialize TMUX plugin manager (keep this line at the very bottom of tmux.conf)
+run -b '~/.tmux/plugins/tpm/tpm'
 EOF
 
-if ! command -v tmux >/dev/null; then
-    echo "Installing tmux..."
-    sudo apt-get install tmux
-fi
-
-echo "All done."
+echo
+echo "All set: $($HOME/bin/tmux -V)"

@@ -37,7 +37,7 @@ if [ -z "$SKIP_BUILD" ]; then
     echo
     echo "Building tmux..."
     # Needs aclocal, yacc, automake, autoreconf, libevent
-    sudo apt install autotools-dev automake bison libevent-dev libncurses-dev
+    # sudo apt install autotools-dev automake bison libevent-dev libncurses-dev
     sh autogen.sh
     ./configure --prefix=$HOME && make && make install
 fi

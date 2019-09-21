@@ -166,7 +166,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (go-guru go-eldoc go-autocomplete whitespace-cleanup-mode web-mode solidity-mode markdown-mode js2-mode golint go-mode ggtags flycheck docker-compose-mode))))
+    (elpy go-guru go-eldoc go-autocomplete whitespace-cleanup-mode web-mode solidity-mode markdown-mode js2-mode golint go-mode ggtags flycheck docker-compose-mode))))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

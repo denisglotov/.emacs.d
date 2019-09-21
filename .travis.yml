@@ -2,10 +2,7 @@ language: minimal
 
 os:
   - linux
-#  - osx
-
-install:
-  sudo apt purge tmux
+  - osx
 
 script:
-  bin/install_tmux.sh
+  bin/install_tmux.sh --ignore-existing

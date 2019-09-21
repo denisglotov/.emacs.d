@@ -4,5 +4,8 @@ os:
   - linux
   - osx
 
+install:
+  sudo apt purge tmux
+
 script:
   bin/install_tmux.sh

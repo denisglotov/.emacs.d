@@ -5,13 +5,10 @@ check() {
     command -v $1 >/dev/null
 }
 
+echo "Installing emacs..."
 sudo add-apt-repository -y ppa:kelleyk/emacs
-if ! check emacs; then
-    echo "Installing emacs..."
-    sudo apt-get install emacs${EMACS_VERSION}-nox
-fi
-
-check ispell || sudo apt-get install ispell
+sudo apt-get install emacs${EMACS_VERSION}-nox
+sudo apt-get install ispell
 
 if ! grep -qe '~/.emacs.d/profile.sh' ~/.bashrc; then
     echo "Appending our shell to .bashrc..."

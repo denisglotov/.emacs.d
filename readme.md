@@ -1,9 +1,11 @@
-My emacs configuration
+My Emacs configuration
 ======================
 
 [![Build status]](https://travis-ci.org/denisglotov/.emacs.d)
 
 [Build status]: https://travis-ci.org/denisglotov/.emacs.d.svg?branch=master
+
+And Tmux too. And scripts to install this all to a new host.
 
 Inspired by [Purcell emacs config], although I keep it simple and
 minimalistic.

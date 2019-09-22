@@ -3,8 +3,11 @@ language: generic
 os:
   - linux
 
-script:
+install:
   - uname -a
+  - sudo apt update
+
+script:
   - bin/install_emacs.sh
   - emacs -nw --eval '(kill-emacs)'
   - bin/install_24bit_terminfo.sh

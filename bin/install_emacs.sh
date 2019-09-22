@@ -19,4 +19,5 @@ else
 fi
 
 echo
-echo "All done: $(emacs${EMACS_VERSION} --version)."
+echo "All done."
+emacs${EMACS_VERSION} --version

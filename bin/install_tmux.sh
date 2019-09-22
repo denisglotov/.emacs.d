@@ -29,8 +29,8 @@ check() {
     command -v $1 >/dev/null
 }
 
-libcheck() {
-    ldconfig -p | grep $1 #>/dev/null
+pkgcheck() {
+    apt list --installed | grep $1 #>/dev/null
 }
 
 if [ -z "$SKIP_BUILD" ]; then
@@ -43,9 +43,7 @@ if [ -z "$SKIP_BUILD" ]; then
         sudo apt install autotools-dev automake bison
     fi
 
-    if libcheck libevent && libcheck libncurses; then
-        sudo apt install libevent-dev libncurses-dev
-        libcheck libevent && libcheck libncurses
+    if pkgcheck libevent-dev && pkgcheck libncurses-dev; then
         echo "[Info] All libraries are installed."
     else
         echo "Need to install libraries with sudo..."

@@ -75,6 +75,8 @@ if [ -f ~/.tmux.conf ]; then
     echo "[Warning] Backing up .tmux.conf here..." &&
     mv ~/.tmux.conf ~/.tmux.conf.old
 fi
+color=$(cat /etc/ssh/ssh_host_*_key.pub | $(dirname $0)/calculate_color.py)
+echo "[Info] with background color ${color}."
 cat >~/.tmux.conf <<EOF
 set -g @plugin 'tmux-plugins/tpm'
 set -g @plugin 'tmux-plugins/tmux-resurrect'
@@ -84,7 +86,7 @@ set -g terminal-overrides ",xterm-256color:Tc"
 set -g mouse on
 
 set -g status-fg colour006
-set -g status-bg blue
+set -g status-bg ${color}
 
 set -g @resurrect-save-shell-history 'on'
 

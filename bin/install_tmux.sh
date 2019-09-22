@@ -1,4 +1,5 @@
 #!/bin/bash -e
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 while [[ $# -gt 0 ]]; do
 case $1 in
@@ -75,7 +76,7 @@ if [ -f ~/.tmux.conf ]; then
     echo "[Warning] Backing up .tmux.conf here..." &&
     mv ~/.tmux.conf ~/.tmux.conf.old
 fi
-color=$(cat /etc/ssh/ssh_host_*_key.pub | $(dirname $0)/calculate_color.py)
+color=$(cat /etc/ssh/ssh_host_*_key.pub | ${DIR}/calculate_color.py)
 echo "[Info] with background color ${color}."
 cat >~/.tmux.conf <<EOF
 set -g @plugin 'tmux-plugins/tpm'

@@ -77,7 +77,7 @@ cat >~/.tmux.conf <<EOF
 set -g @plugin 'tmux-plugins/tpm'
 set -g @plugin 'tmux-plugins/tmux-resurrect'
 
-set -g default-terminal "xterm-24bit-256color"
+set -g default-terminal "screen-24bit-256color"
 set -g terminal-overrides ",xterm-256color:Tc"
 set -g mouse on
 

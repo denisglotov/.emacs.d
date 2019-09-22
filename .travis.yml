@@ -4,4 +4,5 @@ os:
   - linux
 
 script:
+  bin/install_24_colors.sh
   bin/install_tmux.sh --ignore-existing

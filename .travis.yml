@@ -1,8 +1,9 @@
-language: minimal
+language: generic
 
 os:
   - linux
-#  - osx
 
 script:
-  bin/install_tmux.sh --ignore-existing
+  - uname -a
+  - bin/install_24bit_terminfo.sh
+  - bin/install_tmux.sh --ignore-existing

@@ -1,4 +1,5 @@
 #!/bin/bash -e
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 while [[ $# -gt 0 ]]; do
 case $1 in
@@ -25,10 +26,32 @@ die() {
     exit 1
 }
 
-if [ -z "$SKIP_BUILD" ]; then
-    [ ! -v IGNORE ] && command -v tmux >/dev/null &&
-        die "[Error] $(tmux -V) already installed."
+check() {
+    command -v $1 >/dev/null
+}
 
+pkgcheck() {
+    apt list --installed | grep $1 #>/dev/null
+}
+
+if [ -z "$SKIP_BUILD" ]; then
+    [ ! -v IGNORE ] && check tmux && die "[Error] $(tmux -V) already installed."
+
+    if check aclocal && check yacc && check automake; then
+        echo "[Info] All build tools are installed."
+    else
+        echo "Need to install build tools with sudo..."
+        sudo apt install autotools-dev automake bison
+    fi
+
+    if pkgcheck libevent-dev && pkgcheck libncurses-dev; then
+        echo "[Info] All libraries are installed."
+    else
+        echo "Need to install libraries with sudo..."
+        sudo apt install libevent-dev libncurses-dev
+    fi
+
+    echo
     echo "Installing tmux $TMUX_TAG..."
     [ -d /tmp/tmux ] || git clone https://github.com/tmux/tmux.git /tmp/tmux
     cd /tmp/tmux
@@ -36,10 +59,10 @@ if [ -z "$SKIP_BUILD" ]; then
 
     echo
     echo "Building tmux..."
-    # Needs aclocal, yacc, automake, autoreconf, libevent
-    sudo apt install autotools-dev automake bison libevent-dev libncurses-dev
     sh autogen.sh
-    ./configure --prefix=$HOME && make && make install
+    ./configure --prefix=$HOME
+    make
+    make install
 fi
 
 echo
@@ -53,15 +76,18 @@ if [ -f ~/.tmux.conf ]; then
     echo "[Warning] Backing up .tmux.conf here..." &&
     mv ~/.tmux.conf ~/.tmux.conf.old
 fi
+color=$(cat /etc/ssh/ssh_host_*_key.pub | ${DIR}/calculate_color.py)
+echo "[Info] with background color ${color}."
 cat >~/.tmux.conf <<EOF
 set -g @plugin 'tmux-plugins/tpm'
 set -g @plugin 'tmux-plugins/tmux-resurrect'
 
-set -g default-terminal "screen-256color"
+set -g default-terminal "screen-24bit-256color"
+set -g terminal-overrides ",xterm-256color:Tc"
 set -g mouse on
 
 set -g status-fg colour006
-set -g status-bg blue
+set -g status-bg ${color}
 
 set -g @resurrect-save-shell-history 'on'
 

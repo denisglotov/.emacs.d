@@ -18,6 +18,12 @@ else
     echo "source ~/.emacs.d/profile.sh" >>~/.bashrc
 fi
 
+if [ "${EMACS_VERSION}" }; then
+    echo "Creating symbolic links..."
+    sudo ln -sf emacs${EMACS_VERSION} /usr/bin/emacs
+    sudo ln -sf emacsclient${EMACS_VERSION} /usr/bin/emacsclient
+fi
+
 echo
 echo "All done."
-emacs${EMACS_VERSION} --version
+emacs --version

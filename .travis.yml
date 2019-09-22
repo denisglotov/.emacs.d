@@ -1,11 +1,9 @@
-language: generic
+language: minimal
 os: linux
 dist: bionic
 
 install:
-  - uname -a
   - sudo apt update
-  - sudo apt purge emacs emacs-nox tmux --autoremove
 
 script:
   - bin/install_emacs.sh

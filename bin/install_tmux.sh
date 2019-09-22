@@ -59,7 +59,9 @@ if [ -z "$SKIP_BUILD" ]; then
     echo
     echo "Building tmux..."
     sh autogen.sh
-    ./configure --prefix=$HOME && make && make install
+    ./configure --prefix=$HOME
+    make
+    make install
 fi
 
 echo

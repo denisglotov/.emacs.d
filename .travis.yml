@@ -4,5 +4,6 @@ os:
   - linux
 
 script:
+  - uname -a
   - bin/install_24bit_terminfo.sh
   - bin/install_tmux.sh --ignore-existing

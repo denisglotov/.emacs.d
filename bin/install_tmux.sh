@@ -44,6 +44,7 @@ if [ -z "$SKIP_BUILD" ]; then
     fi
 
     if libcheck libevent && libcheck libncurses; then
+        ldconfig -p | grep libevent
         echo "[Info] All libraries are installed."
     else
         echo "Need to install libraries with sudo..."

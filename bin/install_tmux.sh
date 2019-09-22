@@ -30,7 +30,7 @@ check() {
 }
 
 libcheck() {
-    ldconfig -p | grep $1 >/dev/null
+    ldconfig -p | grep $1 #>/dev/null
 }
 
 if [ -z "$SKIP_BUILD" ]; then
@@ -44,7 +44,8 @@ if [ -z "$SKIP_BUILD" ]; then
     fi
 
     if libcheck libevent && libcheck libncurses; then
-        ldconfig -p | grep libevent
+        sudo apt install libevent-dev libncurses-dev
+        libcheck libevent && libcheck libncurses
         echo "[Info] All libraries are installed."
     else
         echo "Need to install libraries with sudo..."

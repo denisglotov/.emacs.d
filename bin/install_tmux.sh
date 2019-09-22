@@ -30,7 +30,7 @@ check() {
 }
 
 libcheck() {
-    ldconfig -p | grep libjpeg >/dev/null
+    ldconfig -p | grep $1 >/dev/null
 }
 
 if [ -z "$SKIP_BUILD" ]; then

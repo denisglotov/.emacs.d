@@ -7,6 +7,6 @@ install:
 
 script:
   - bin/install_emacs.sh
-  - emacs --batch -l init.el
+  - emacs --batch -L lisp -l init.el
   - bin/install_24bit_terminfo.sh
   - bin/install_tmux.sh --ignore-existing

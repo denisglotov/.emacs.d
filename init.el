@@ -147,6 +147,7 @@
 
 ;; Load additional configs.
 (add-to-list 'load-path (expand-file-name "lisp/" user-emacs-directory))
+(message load-path)
 (require 'init-go)
 (require 'init-javascript)
 (require 'init-solidity)

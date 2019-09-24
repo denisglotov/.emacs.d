@@ -73,7 +73,7 @@
 
 ;; Backup dirs.
 (setq backup-directory-alist
-      '((".*" . "~/.emacs-saves")))
+      '((".*" . (expand-file-name "backup" user-emacs-directory))))
 (setq auto-save-file-name-transforms
       `((".*" ,temporary-file-directory t)))
 
@@ -146,7 +146,7 @@
 (setq flycheck-emacs-lisp-load-path 'inherit)
 
 ;; Load additional configs.
-(add-to-list 'load-path (expand-file-name "lisp/" user-emacs-directory))
+(add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 (require 'init-go)
 (require 'init-javascript)
 (require 'init-solidity)

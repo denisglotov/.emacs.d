@@ -73,7 +73,8 @@
 
 ;; Backup dirs.
 (setq backup-directory-alist
-      '((".*" . (expand-file-name "backup" user-emacs-directory))))
+      `((".*" . ,(expand-file-name "backup" user-emacs-directory))))
+(message "%s" backup-directory-alist)
 (setq auto-save-file-name-transforms
       `((".*" ,temporary-file-directory t)))
 

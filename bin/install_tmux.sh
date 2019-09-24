@@ -87,7 +87,7 @@ set -g terminal-overrides ",xterm-256color:Tc"
 set -g mouse on
 
 set -g status-fg colour006
-set -g status-bg ${color}
+set -g status-bg "${color}"
 
 set -g @resurrect-save-shell-history 'on'
 

@@ -23,6 +23,9 @@ deterministically based on argument, used to pick host-unique color for tmux
 status line,
 
 
+[bin/install_tmux.sh]: bin/install_tmux.sh
+[bin/calculate_color.py]: bin/calculate_color.py
+
 Tools
 -----
 

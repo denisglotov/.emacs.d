@@ -103,8 +103,7 @@ EOF
 
 echo
 echo "Install plugins..."
-tmux -c exit
-~/.tmux/plugins/tpm/bin/install_plugins
+tmux source ~/.tmux.conf && ~/.tmux/plugins/tpm/bin/install_plugins
 
 echo
 echo "All done"

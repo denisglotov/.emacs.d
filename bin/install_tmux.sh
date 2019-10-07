@@ -30,6 +30,9 @@ case $1 in
         echo "[Warning] Skipping tmux build"
         shift
         ;;
+    -h|--help)
+        help
+        ;;
     --)
         shift
         ;;
@@ -100,6 +103,7 @@ EOF
 
 echo
 echo "Install plugins..."
+tmux -c exit
 ~/.tmux/plugins/tpm/bin/install_plugins
 
 echo

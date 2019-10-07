@@ -1,6 +1,7 @@
 .*.lock
-/.emacs.desktop
-/auto-save-list
-/elpa
+.emacs.desktop
+auto-save-list/
+elpa/
+backup/
 ido.last
 tramp

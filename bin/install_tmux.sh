@@ -1,6 +1,23 @@
 #!/bin/bash -e
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+help() {
+    echo "Usage: $0 [-i|--ignore-existing] [-s|--skip-tmux-build] [TMUX_GIT_TAG]"
+    exit 0
+}
 
+die() {
+    echo $1 >&2
+    exit 1
+}
+
+check() {
+    command -v $1 >/dev/null
+}
+
+pkgcheck() {
+    apt list --installed | grep $1 >/dev/null
+}
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 while [[ $# -gt 0 ]]; do
 case $1 in
     -i|--ignore-existing)
@@ -18,30 +35,16 @@ case $1 in
         ;;
 esac
 done
-
 [ "$1" ] && TMUX_TAG="$1" || TMUX_TAG="2.9a"
-
-die() {
-    echo $1 >&2
-    exit 1
-}
-
-check() {
-    command -v $1 >/dev/null
-}
-
-pkgcheck() {
-    apt list --installed | grep $1 #>/dev/null
-}
 
 if [ -z "$SKIP_BUILD" ]; then
     [ ! -v IGNORE ] && check tmux && die "[Error] $(tmux -V) already installed."
 
-    if check aclocal && check yacc && check automake; then
+    if pkgcheck build-essential && check aclocal && check yacc && check automake; then
         echo "[Info] All build tools are installed."
     else
         echo "Need to install build tools with sudo..."
-        sudo apt install autotools-dev automake bison
+        sudo apt install build-essential autotools-dev automake bison
     fi
 
     if pkgcheck libevent-dev && pkgcheck libncurses-dev; then
@@ -96,4 +99,8 @@ run -b '~/.tmux/plugins/tpm/tpm'
 EOF
 
 echo
-echo "All set: $($HOME/bin/tmux -V)"
+echo "Install plugins..."
+~/.tmux/plugins/tpm/bin/install_plugins
+
+echo
+echo "All done"

@@ -13,6 +13,16 @@ minimalistic.
 [Purcell emacs config]: https://github.com/purcell/emacs.d
 
 
+Scripts
+-------
+
+[bin/install_tmux.sh] - build from repo or install tmux and its config,
+
+[bin/calculate_color.py] - calculate some dark color in a form "#rrggbb"
+deterministically based on argument, used to pick host-unique color for tmux
+status line,
+
+
 Tools
 -----
 

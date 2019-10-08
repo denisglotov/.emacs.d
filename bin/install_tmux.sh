@@ -96,6 +96,7 @@ set -g status-fg colour006
 set -g status-bg "${color}"
 
 set -g @resurrect-save-shell-history 'on'
+set-environment -g TMUX_PLUGIN_MANAGER_PATH '~/.tmux/plugins/'
 
 # Initialize TMUX plugin manager (keep this line at the very bottom of tmux.conf)
 run -b '~/.tmux/plugins/tpm/tpm'
@@ -103,7 +104,7 @@ EOF
 
 echo
 echo "Install plugins..."
-tmux -c ~/.tmux/plugins/tpm/bin/install_plugins
+~/.tmux/plugins/tpm/bin/install_plugins
 
 echo
 echo "All done"

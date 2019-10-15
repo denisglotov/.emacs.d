@@ -7,10 +7,10 @@ My Emacs configuration
 
 And Tmux too. And scripts to install this all to a new host.
 
-Inspired by [Purcell emacs config], although I keep it simple and
-minimalistic.
+Good emacs configurations that I took inspiration from:
 
-[Purcell emacs config]: https://github.com/purcell/emacs.d
+Purcell emacs config: https://github.com/purcell/emacs.d/
+John wigley emacs: https://github.com/jwiegley/dot-emacs/
 
 
 Scripts

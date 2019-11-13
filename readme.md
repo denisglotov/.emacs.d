@@ -9,12 +9,15 @@ And Tmux too. And scripts to install this all to a new host.
 
 Good emacs configurations that I took inspiration from:
 
-Purcell emacs config: https://github.com/purcell/emacs.d/
-John wigley emacs: https://github.com/jwiegley/dot-emacs/
+* Purcell emacs config: https://github.com/purcell/emacs.d/
+* John Wigley emacs: https://github.com/jwiegley/dot-emacs/
 
 
 Scripts
 -------
+
+[bin/install_emacs.sh] - installs emacs (-nox version) of the specified
+version,
 
 [bin/install_tmux.sh] - build from repo or install tmux and its config,
 
@@ -23,8 +26,10 @@ deterministically based on argument, used to pick host-unique color for tmux
 status line,
 
 
+[bin/install_emacs.sh]: bin/install_emacs.sh
 [bin/install_tmux.sh]: bin/install_tmux.sh
 [bin/calculate_color.py]: bin/calculate_color.py
+
 
 Tools
 -----
@@ -40,11 +45,9 @@ Tool         |  Command                               |  Used by
 ------------ | -------------------------------------- | -----------------------
 [Ispell][]   | `sudo apt-get install ispell`          | `M-x ispell`
 [Solium][]   | `sudo npm install solium -g`           | flycheck Solidity code
-[flake8][]   | `python -m pip install flake8`         | flycheck Python code
 
 [Ispell]: https://www.gnu.org/software/ispell/
 [Solium]: https://github.com/duaraghav8/Solium
-[flake8]: http://flake8.pycqa.org/en/latest/
 
 
 Keys
@@ -70,6 +73,7 @@ C-x e   |                         | Execute the keyboard macro (C-u 0 C-x e)
 C-c ! l | flycheck-list-errors    | Pop up a list of all errors in current buffer
 C-c ! n | flycheck-next-error     |
 C-c ! p | flycheck-previous-error |
-
+C-x SPC |                         | Rectangle mode selection
+C-x TAB |                         | Indent region left-right
 
 Happy coding 😺

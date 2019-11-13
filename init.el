@@ -147,7 +147,21 @@
 (require 'init-go)
 (require 'init-java)
 (require 'init-javascript)
+(require 'init-python)
 (require 'init-solidity)
+
+(use-package compile
+  :no-require
+  :bind ("C-c c" . compile)
+  :bind (:map compilation-mode-map
+              ("z" . delete-window))
+  :preface
+  (defun compilation-ansi-color-process-output ()
+    (ansi-color-process-output nil)
+    (set (make-local-variable 'comint-last-output-start)
+         (point-marker)))
+
+  :hook (compilation-filter . compilation-ansi-color-process-output))
 
 (use-package docker-compose-mode
   :mode "docker-compose.*\.yml\\'")
@@ -205,7 +219,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (meghanada whitespace-cleanup-mode yasnippet web-mode use-package solidity-mode s pyvenv markdown-mode json-mode js2-mode highlight-indentation golint go-guru go-eldoc go-autocomplete flycheck find-file-in-project docker-compose-mode company))))
+    (elpy meghanada whitespace-cleanup-mode yasnippet web-mode use-package solidity-mode s pyvenv markdown-mode json-mode js2-mode highlight-indentation golint go-guru go-eldoc go-autocomplete flycheck find-file-in-project docker-compose-mode company))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

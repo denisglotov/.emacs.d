@@ -1,8 +1,9 @@
 .*.lock
 .emacs.desktop
 auto-save-list/
-elpa/
 backup/
-meghanada/
+elpa/
+elpy/
 ido.last
+meghanada/
 tramp

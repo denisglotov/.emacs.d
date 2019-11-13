@@ -1,6 +1,6 @@
 #!/bin/bash -e
 help() {
-    echo "Usage: $0 [-i|--ignore-existing] [-s|--skip-tmux-build] [TMUX_GIT_TAG]"
+    echo "Usage: $0 [-s|--skip-tmux-build [-i|--ignore-existing]] [TMUX_GIT_TAG]"
     exit 0
 }
 

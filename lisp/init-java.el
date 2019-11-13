@@ -5,10 +5,20 @@
   :ensure t
   :defer t)
 
-(use-package meghanada
-  :defer t
+(use-package smartparens
   :ensure t
-  :mode "\\.java\\'"
+  :defer t)
+
+(use-package rainbow-delimiters
+  :ensure t
+  :defer t)
+
+(use-package highlight-symbol
+  :ensure t
+  :defer t)
+
+(use-package meghanada
+  :ensure t
   :init
   (add-hook 'java-mode-hook
             (lambda ()
@@ -17,7 +27,8 @@
               (smartparens-mode t)
               (rainbow-delimiters-mode t)
               (highlight-symbol-mode t)
-              (add-hook 'before-save-hook 'meghanada-code-beautify-before-save)))
+              ;;(add-hook 'before-save-hook 'meghanada-code-beautify-before-save)
+              ))
 
   :config
   (use-package realgud

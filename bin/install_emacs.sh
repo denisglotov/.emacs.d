@@ -6,10 +6,10 @@ check() {
 }
 
 echo "Installing emacs${EMACS_VERSION}..."
-sudo apt-get install software-properties-common
+sudo apt-get install -y software-properties-common
 sudo add-apt-repository -y ppa:kelleyk/emacs
-sudo apt-get install emacs${EMACS_VERSION}-nox
-sudo apt-get install ispell
+sudo apt-get install -y emacs${EMACS_VERSION}-nox
+sudo apt-get install -y ispell
 
 echo
 if grep -qe '~/.emacs.d/profile.sh' ~/.bashrc; then

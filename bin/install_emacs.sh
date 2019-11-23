@@ -7,7 +7,7 @@ check() {
 
 echo "Installing emacs${EMACS_VERSION}..."
 sudo apt-get install software-properties-common
-sudo add-apt-repository -y ppa:kelleyk/emacs
+sudo add-apt-repository ppa:kelleyk/emacs
 sudo apt-get install emacs${EMACS_VERSION}-nox
 sudo apt-get install ispell
 

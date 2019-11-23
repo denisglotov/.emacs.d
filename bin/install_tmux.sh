@@ -1,6 +1,7 @@
 #!/bin/bash -e
 help() {
-    echo "Usage: $0 [-s|--skip-tmux-build [-i|--ignore-existing]] [TMUX_GIT_TAG]"
+    echo "Usage: $0 [-s|--skip-tmux-build [-i|--ignore-existing]]"
+    echo "       [-c|--color COLOR] [-t|--tag TMUX_GIT_TAG]"
     exit 0
 }
 
@@ -30,6 +31,16 @@ case $1 in
         echo "[Warning] Skipping tmux build"
         shift
         ;;
+    -c|--color)
+        COLOR=$1
+        shift
+        shift
+        ;;
+    -t|--tag)
+        TMUX_TAG=$1
+        shift
+        shift
+        ;;
     -h|--help)
         help
         ;;
@@ -38,7 +49,7 @@ case $1 in
         ;;
 esac
 done
-[ "$1" ] && TMUX_TAG="$1" || TMUX_TAG="2.9a"
+[ "$TMUX_TAG" ] || TMUX_TAG="2.9a"
 
 if [ -z "$SKIP_BUILD" ]; then
     [ ! -v IGNORE ] && check tmux && die "[Error] $(tmux -V) already installed."
@@ -82,18 +93,18 @@ if [ -f ~/.tmux.conf ]; then
     echo "[Warning] Backing up .tmux.conf here..." &&
     mv ~/.tmux.conf ~/.tmux.conf.old
 fi
-color=$(cat /etc/ssh/ssh_host_*_key.pub | ${DIR}/calculate_color.py)
+[ "$COLOR" ] || COLOR=$(cat /etc/ssh/ssh_host_*_key.pub | ${DIR}/calculate_color.py)
 echo "[Info] with background color ${color}."
 cat >~/.tmux.conf <<EOF
 set -g @plugin 'tmux-plugins/tpm'
 set -g @plugin 'tmux-plugins/tmux-resurrect'
 
-set -g default-terminal "screen-24bit-256color"
+set -g default-terminal "screen-256color"
 set -g terminal-overrides ",xterm-256color:Tc"
 set -g mouse on
 
 set -g status-fg colour006
-set -g status-bg "${color}"
+set -g status-bg "${COLOR}"
 
 set -g @resurrect-save-shell-history 'on'
 set-environment -g TMUX_PLUGIN_MANAGER_PATH '~/.tmux/plugins/'

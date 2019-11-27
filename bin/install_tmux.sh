@@ -32,12 +32,12 @@ case $1 in
         shift
         ;;
     -c|--color)
-        COLOR=$1
+        COLOR=$2
         shift
         shift
         ;;
     -t|--tag)
-        TMUX_TAG=$1
+        TMUX_TAG=$2
         shift
         shift
         ;;

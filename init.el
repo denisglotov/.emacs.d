@@ -2,21 +2,14 @@
 
 (defvar my-packages
   '(
-    docker-compose-mode
-    flycheck
-    ggtags
     go-autocomplete
     go-eldoc
     go-guru
     go-mode
     golint
     js2-mode
-    markdown-mode
     solidity-mode
-    tool-bar+
-    web-mode
-    whitespace-cleanup-mode
-    yaml-mode
+    use-package
     )
   )
 
@@ -36,6 +29,8 @@
         (package-refresh-contents)
         (setq refreshed t))
       (package-install pkg))))
+
+(require 'use-package)
 
 (require 'cl-lib)
 (defun package-list-unaccounted-packages ()
@@ -73,7 +68,8 @@
 
 ;; Backup dirs.
 (setq backup-directory-alist
-      '((".*" . "~/.emacs-saves")))
+      `((".*" . ,(expand-file-name "backup" user-emacs-directory))))
+(message "%s" backup-directory-alist)
 (setq auto-save-file-name-transforms
       `((".*" ,temporary-file-directory t)))
 
@@ -127,10 +123,6 @@
  truncate-lines nil
  ring-bell-function 'ignore)
 
-;; Whitespaces.
-(require 'whitespace-cleanup-mode)
-(global-whitespace-cleanup-mode t)
-
 ;; Show matching parens.
 (show-paren-mode 1)
 (ido-mode 1)
@@ -141,22 +133,83 @@
       desktop-auto-save-timeout 600)
 (desktop-save-mode 1)
 
-(require 'flycheck)
-(add-hook 'after-init-hook #'global-flycheck-mode)
-(setq flycheck-emacs-lisp-load-path 'inherit)
+(use-package flycheck
+  :ensure t
+  :commands (flycheck-mode
+             flycheck-next-error
+             flycheck-previous-error)
+  :hook (after-init . global-flycheck-mode)
+  :config
+  (setq flycheck-emacs-lisp-load-path 'inherit))
 
 ;; Load additional configs.
-(add-to-list 'load-path (expand-file-name "lisp/" user-emacs-directory))
+(add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 (require 'init-go)
+(require 'init-java)
 (require 'init-javascript)
+(require 'init-python)
 (require 'init-solidity)
 
-;; Allow access from emacsclient.
-(require 'server)
-(unless (server-running-p)
-    (server-start))
+(use-package compile
+  :no-require
+  :bind ("C-c c" . compile)
+  :bind (:map compilation-mode-map
+              ("z" . delete-window))
+  :preface
+  (defun compilation-ansi-color-process-output ()
+    (ansi-color-process-output nil)
+    (set (make-local-variable 'comint-last-output-start)
+         (point-marker)))
 
-(message "All done, happy hacking 😺 ")
+  :hook (compilation-filter . compilation-ansi-color-process-output))
+
+(use-package docker-compose-mode
+  :mode "docker-compose.*\.yml\\'")
+
+(use-package ggtags
+  :disabled t
+  :commands ggtags-mode
+  :diminish)
+
+;; Allow access from emacsclient.
+(use-package server
+  :unless noninteractive
+  :no-require
+  :hook (after-init . server-start))
+
+(use-package json-mode
+  :ensure t
+  :mode "\\.json\\'")
+
+(use-package json-reformat
+  :ensure t
+  :after json-mode)
+
+(use-package markdown-mode
+  :ensure t
+  :commands (markdown-mode gfm-mode)
+  :mode (("README\\.md\\'" . gfm-mode)
+         ("readme\\.md\\'" . gfm-mode)
+         ("\\.md\\'" . markdown-mode)
+         ("\\.markdown\\'" . markdown-mode))
+  :init (setq markdown-command "multimarkdown"))
+
+(use-package web-mode
+  :ensure t
+  :commands web-mode)
+
+(use-package whitespace-cleanup-mode
+  :ensure t
+  :diminish
+  :commands whitespace-cleanup-mode
+  :config
+  (global-whitespace-cleanup-mode 1))
+
+(use-package yaml-mode
+  :ensure t
+  :mode "\\.ya?ml\\'")
+
+(message "All done, happy hacking 😺")
 (provide 'init)
 
 (custom-set-variables
@@ -166,8 +219,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (elpy go-guru go-eldoc go-autocomplete whitespace-cleanup-mode web-mode solidity-mode markdown-mode js2-mode golint go-mode ggtags flycheck docker-compose-mode))))
-
+    (elpy meghanada whitespace-cleanup-mode yasnippet web-mode use-package solidity-mode s pyvenv markdown-mode json-mode js2-mode highlight-indentation golint go-guru go-eldoc go-autocomplete flycheck find-file-in-project docker-compose-mode company))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

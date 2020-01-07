@@ -25,10 +25,13 @@ version,
 deterministically based on argument, used to pick host-unique color for tmux
 status line,
 
+[bin/install_scala.sh] - builds and installs metals-emacs to ~/bin.
+
 
 [bin/install_emacs.sh]: bin/install_emacs.sh
 [bin/install_tmux.sh]: bin/install_tmux.sh
 [bin/calculate_color.py]: bin/calculate_color.py
+[bin/install_scala.sh]: bin/install_scala.sh
 
 
 Tools

@@ -1,6 +1,6 @@
 language: minimal
 os: linux
-dist: bionic
+dist: focal
 
 install:
   - sudo apt update

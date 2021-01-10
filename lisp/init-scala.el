@@ -22,12 +22,17 @@
   ;; Optional - enable lsp-mode automatically in scala files
   :ensure t
   :defer t
-  :hook (scala-mode . lsp)
+  :hook ((java-mode scala-mode) . lsp)
   :config (setq lsp-prefer-flymake nil))
 
 (use-package lsp-ui
   :ensure t
   :defer t)
+
+(use-package lsp-java
+  :ensure t
+  :defer t
+  :config (add-hook 'java-mode-hook 'lsp))
 
 ;; lsp-mode supports snippets, but in order for them to work you need to use yasnippet
 ;; If you don't want to use snippets set lsp-enable-snippet to nil in your lsp-mode settings

@@ -144,7 +144,6 @@
 ;; Load additional configs.
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 (require 'init-go)
-(require 'init-java)
 (require 'init-javascript)
 (require 'init-python)
 (require 'init-solidity)

@@ -7,7 +7,6 @@
     go-guru
     go-mode
     golint
-    solidity-mode
     use-package
     )
   )
@@ -218,7 +217,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (company-lsp lsp-ui lsp-mode sbt-mode scala-mode xref-js2 elpy meghanada whitespace-cleanup-mode yasnippet web-mode use-package solidity-mode s pyvenv markdown-mode json-mode js2-mode highlight-indentation golint go-guru go-eldoc go-autocomplete flycheck find-file-in-project docker-compose-mode company))))
+    (solidity-flycheck company-lsp lsp-ui lsp-mode sbt-mode scala-mode xref-js2 elpy meghanada whitespace-cleanup-mode yasnippet web-mode use-package solidity-mode s pyvenv markdown-mode json-mode js2-mode highlight-indentation golint go-guru go-eldoc go-autocomplete flycheck find-file-in-project docker-compose-mode company))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

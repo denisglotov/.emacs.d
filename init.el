@@ -192,6 +192,21 @@
          ("\\.markdown\\'" . markdown-mode))
   :init (setq markdown-command "multimarkdown"))
 
+(use-package lsp-mode
+  :ensure t
+  :disabled t
+  :commands lsp)
+
+(use-package lsp-ui
+  :ensure t
+  :after lsp-mode
+  :hook (lsp-mode . lsp-ui-mode)
+  :config
+  (define-key lsp-ui-mode-map [remap xref-find-definitions]
+    #'lsp-ui-peek-find-definitions)
+  (define-key lsp-ui-mode-map [remap xref-find-references]
+    #'lsp-ui-peek-find-references))
+
 (use-package web-mode
   :ensure t
   :commands web-mode)
@@ -217,7 +232,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (solidity-flycheck company-lsp lsp-ui lsp-mode sbt-mode scala-mode xref-js2 elpy meghanada whitespace-cleanup-mode yasnippet web-mode use-package solidity-mode s pyvenv markdown-mode json-mode js2-mode highlight-indentation golint go-guru go-eldoc go-autocomplete flycheck find-file-in-project docker-compose-mode company))))
+    (typescript-mode js3-mode lsp-mode company-lsp sbt-mode scala-mode xref-js2 elpy meghanada whitespace-cleanup-mode yasnippet web-mode use-package solidity-mode s pyvenv markdown-mode json-mode js2-mode highlight-indentation golint go-guru go-eldoc go-autocomplete flycheck find-file-in-project docker-compose-mode company))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

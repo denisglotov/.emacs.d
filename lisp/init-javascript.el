@@ -73,4 +73,11 @@
             (lambda () (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t)))
   )
 
+(use-package typescript-mode
+  :mode "\\.js\\'"
+  :ensure t
+  :config
+  (setq-default typescript-indent-level 2)
+)
+
 (provide 'init-javascript)

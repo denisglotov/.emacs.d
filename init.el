@@ -1,14 +1,7 @@
 ;;; init.el --- Initialization file for Emacs
 
 (defvar my-packages
-  '(
-    go-autocomplete
-    go-eldoc
-    go-guru
-    go-mode
-    golint
-    use-package
-    )
+  '(use-package)
   )
 
 (require 'package)
@@ -28,6 +21,7 @@
         (setq refreshed t))
       (package-install pkg))))
 
+;; https://github.com/jwiegley/use-package
 (require 'use-package)
 
 (require 'cl-lib)
@@ -192,20 +186,37 @@
          ("\\.markdown\\'" . markdown-mode))
   :init (setq markdown-command "multimarkdown"))
 
+;; Lsp mode https://emacs-lsp.github.io/lsp-mode/page/installation/#use-package
 (use-package lsp-mode
   :ensure t
-  :disabled t
-  :commands lsp)
-
+  :init
+  ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
+  (setq lsp-keymap-prefix "C-c l")
+  :commands (lsp lsp-deferred))
 (use-package lsp-ui
+    :ensure t
+    :commands lsp-ui-mode)
+(use-package helm-lsp
+    :ensure t
+    :commands helm-lsp-workspace-symbol)
+(use-package lsp-ivy
+    :ensure t
+    :commands lsp-ivy-workspace-symbol)
+(use-package lsp-treemacs
+    :ensure t
+    :commands lsp-treemacs-errors-list)
+
+;; lsp-mode supports snippets, but in order for them to work you need to use yasnippet
+;; If you don't want to use snippets set lsp-enable-snippet to nil in your lsp-mode settings
+;;   to avoid odd behavior with snippets and indentation
+(use-package yasnippet
   :ensure t
-  :after lsp-mode
-  :hook (lsp-mode . lsp-ui-mode)
-  :config
-  (define-key lsp-ui-mode-map [remap xref-find-definitions]
-    #'lsp-ui-peek-find-definitions)
-  (define-key lsp-ui-mode-map [remap xref-find-references]
-    #'lsp-ui-peek-find-references))
+  :defer t)
+
+;; Add company-lsp backend for metals
+(use-package company-lsp
+  :ensure t
+  :defer t)
 
 (use-package web-mode
   :ensure t
@@ -232,7 +243,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (typescript-mode js3-mode lsp-mode company-lsp sbt-mode scala-mode xref-js2 elpy meghanada whitespace-cleanup-mode yasnippet web-mode use-package solidity-mode s pyvenv markdown-mode json-mode js2-mode highlight-indentation golint go-guru go-eldoc go-autocomplete flycheck find-file-in-project docker-compose-mode company))))
+    (helm-lsp xclip solidity-flycheck typescript-mode js3-mode company-lsp sbt-mode scala-mode xref-js2 elpy meghanada whitespace-cleanup-mode yasnippet web-mode use-package solidity-mode s pyvenv markdown-mode json-mode js2-mode highlight-indentation flycheck find-file-in-project docker-compose-mode company))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

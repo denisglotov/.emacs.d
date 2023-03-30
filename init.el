@@ -1,15 +1,7 @@
 ;;; init.el --- Initialization file for Emacs
 
 (defvar my-packages
-  '(
-    go-autocomplete
-    go-eldoc
-    go-guru
-    go-mode
-    golint
-    solidity-mode
-    use-package
-    )
+  '(use-package)
   )
 
 (require 'package)
@@ -29,6 +21,7 @@
         (setq refreshed t))
       (package-install pkg))))
 
+;; https://github.com/jwiegley/use-package
 (require 'use-package)
 
 (require 'cl-lib)
@@ -120,7 +113,9 @@
  scroll-preserve-screen-position 'always
  fill-column 78
  truncate-lines nil
- ring-bell-function 'ignore)
+ ring-bell-function 'ignore
+ split-width-threshold 200
+ split-height-threshold nil)
 
 ;; Show matching parens.
 (show-paren-mode 1)
@@ -144,7 +139,6 @@
 ;; Load additional configs.
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 (require 'init-go)
-(require 'init-java)
 (require 'init-javascript)
 (require 'init-python)
 (require 'init-solidity)
@@ -194,6 +188,33 @@
          ("\\.markdown\\'" . markdown-mode))
   :init (setq markdown-command "multimarkdown"))
 
+;; Lsp mode https://emacs-lsp.github.io/lsp-mode/page/installation/#use-package
+(use-package lsp-mode
+  :ensure t
+  :init
+  ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
+  (setq lsp-keymap-prefix "C-c l")
+  :commands (lsp lsp-deferred))
+(use-package lsp-ui
+    :ensure t
+    :commands lsp-ui-mode)
+(use-package helm-lsp
+    :ensure t
+    :commands helm-lsp-workspace-symbol)
+(use-package lsp-ivy
+    :ensure t
+    :commands lsp-ivy-workspace-symbol)
+(use-package lsp-treemacs
+    :ensure t
+    :commands lsp-treemacs-errors-list)
+
+;; lsp-mode supports snippets, but in order for them to work you need to use yasnippet
+;; If you don't want to use snippets set lsp-enable-snippet to nil in your lsp-mode settings
+;;   to avoid odd behavior with snippets and indentation
+(use-package yasnippet
+  :ensure t
+  :defer t)
+
 (use-package web-mode
   :ensure t
   :commands web-mode)
@@ -218,8 +239,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   (quote
-    (company-lsp lsp-ui lsp-mode sbt-mode scala-mode xref-js2 elpy meghanada whitespace-cleanup-mode yasnippet web-mode use-package solidity-mode s pyvenv markdown-mode json-mode js2-mode highlight-indentation golint go-guru go-eldoc go-autocomplete flycheck find-file-in-project docker-compose-mode company))))
+   '(company-lsp lsp-ivy lsp-ui lsp-mode sbt-mode scala-mode xref-js2 elpy meghanada whitespace-cleanup-mode yasnippet web-mode use-package solidity-mode s pyvenv markdown-mode json-mode js2-mode highlight-indentation golint go-guru go-eldoc go-autocomplete flycheck find-file-in-project docker-compose-mode company)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

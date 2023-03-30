@@ -18,3 +18,6 @@ go get -u golang.org/x/tools/cmd/goimports
 
 # go get -u github.com/jstemmer/gotags
 # sudo go get -u golang.org/x/tools/cmd/godoc
+
+# https://emacs-lsp.github.io/lsp-mode/page/lsp-gopls/
+go install golang.org/x/tools/gopls@latest

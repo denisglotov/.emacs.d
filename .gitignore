@@ -5,5 +5,6 @@ backup/
 elpa/
 elpy/
 ido.last
-meghanada/
 tramp
+.dap-breakpoints
+.lsp-session-v1

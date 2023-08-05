@@ -139,6 +139,7 @@
 ;; Load additional configs.
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 (require 'init-go)
+(require 'init-rust)
 (require 'init-javascript)
 (require 'init-python)
 (require 'init-solidity)
@@ -194,7 +195,8 @@
   :init
   ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
   (setq lsp-keymap-prefix "C-c l")
-  :commands (lsp lsp-deferred))
+  :commands (lsp lsp-deferred)
+  :config (add-hook 'lsp-mode-hook 'lsp-ui-mode))
 (use-package lsp-ui
     :ensure t
     :commands lsp-ui-mode)
@@ -230,6 +232,9 @@
   :ensure t
   :mode "\\.ya?ml\\'")
 
+(use-package toml-mode
+  :ensure)
+
 (message "All done, happy hacking 😺")
 (provide 'init)
 
@@ -239,7 +244,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(company-lsp lsp-ivy lsp-ui lsp-mode sbt-mode scala-mode xref-js2 elpy meghanada whitespace-cleanup-mode yasnippet web-mode use-package solidity-mode s pyvenv markdown-mode json-mode js2-mode highlight-indentation golint go-guru go-eldoc go-autocomplete flycheck find-file-in-project docker-compose-mode company)))
+   '(toml-mode solidity-flycheck rust-mode company-lsp lsp-ivy lsp-ui lsp-mode sbt-mode scala-mode xref-js2 elpy meghanada whitespace-cleanup-mode yasnippet web-mode use-package solidity-mode s pyvenv markdown-mode json-mode js2-mode highlight-indentation golint go-guru go-eldoc go-autocomplete flycheck find-file-in-project docker-compose-mode company)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

@@ -3,6 +3,7 @@
 (defvar my-packages
   '(
     use-package
+    compat       ;; magit
     s            ;; copilot
     dash         ;; copilot
     editorconfig ;; copilot
@@ -108,6 +109,7 @@
 ;; Other usefulness.
 (global-set-key (kbd "<f5>") 'revert-all-buffers)
 (global-set-key (kbd "<f6>") 'recompile)
+(global-set-key (kbd "M-<f6>") 'compile)
 (global-set-key (kbd "C-M-<backspace>") 'kill-back-to-indentation)
 (global-set-key [remap just-one-space] 'cycle-spacing)
 (global-set-key (kbd "M-l") 'copy-current-line-position-to-clipboard)
@@ -144,8 +146,8 @@
 
 ;; Load additional configs.
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
-(require 'init-go)
 (require 'init-rust)
+(require 'init-go)
 (require 'init-javascript)
 (require 'init-python)
 (require 'init-solidity)
@@ -202,10 +204,14 @@
   ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
   (setq lsp-keymap-prefix "C-c l")
   :commands (lsp lsp-deferred)
-  :config (add-hook 'lsp-mode-hook 'lsp-ui-mode))
+  :config
+  (add-hook 'lsp-mode-hook 'lsp-ui-mode) )
 (use-package lsp-ui
     :ensure t
-    :commands lsp-ui-mode)
+    :commands lsp-ui-mode
+    :bind (:map lsp-mode-map
+                ("C-M-p" . lsp-ui-find-prev-reference)
+                ("C-M-n" . lsp-ui-find-next-reference)))
 (use-package helm-lsp
     :ensure t
     :commands helm-lsp-workspace-symbol)
@@ -248,10 +254,28 @@
 (use-package ibuffer
   :bind ("C-x C-b" . ibuffer))
 
+(use-package which-key
+  :ensure
+  :init
+  (which-key-mode))
+
 (use-package copilot
   :load-path (lambda () (expand-file-name "copilot.el" user-emacs-directory))
-  ;; don't show in mode line
-  :diminish)
+  :diminish "‍✈️"
+  :bind (("C-M-<tab>" . copilot-complete)
+         ("C-M-<f12>" . copilot-mode)
+         :map copilot-mode-map
+         ("C-M-<return>" . copilot-accept-completion)
+         ("C-M-<left>" . copilot-next-completion)
+         ("C-M-<up>" . copilot-previous-completion)
+         ("C-M-<right>" . copilot-accept-completion-by-word)
+         ("C-M-<down>" . copilot-accept-completion-by-line)))
+
+(use-package diminish
+  :ensure t
+  :after (lsp-mode lsp-ui)
+  :config
+  (diminish 'lsp-lens-mode " 🔍"))
 
 (message "All done, happy hacking 😺")
 (provide 'init)

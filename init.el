@@ -1,7 +1,15 @@
 ;;; init.el --- Initialization file for Emacs
 
 (defvar my-packages
-  '(use-package)
+  '(
+    use-package
+    compat       ;; magit
+    s            ;; copilot
+    dash         ;; copilot
+    editorconfig ;; copilot
+    company      ;; copilot
+    exec-path-from-shell
+    )
   )
 
 (require 'package)
@@ -20,6 +28,10 @@
         (package-refresh-contents)
         (setq refreshed t))
       (package-install pkg))))
+
+;; ensure environment variables inside Emacs look the same as in the user's shell
+(when (memq window-system '(mac ns x))
+  (exec-path-from-shell-initialize))
 
 ;; https://github.com/jwiegley/use-package
 (require 'use-package)
@@ -102,6 +114,7 @@
 ;; Other usefulness.
 (global-set-key (kbd "<f5>") 'revert-all-buffers)
 (global-set-key (kbd "<f6>") 'recompile)
+(global-set-key (kbd "M-<f6>") 'compile)
 (global-set-key (kbd "C-M-<backspace>") 'kill-back-to-indentation)
 (global-set-key [remap just-one-space] 'cycle-spacing)
 (global-set-key (kbd "M-l") 'copy-current-line-position-to-clipboard)
@@ -138,8 +151,8 @@
 
 ;; Load additional configs.
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
-(require 'init-go)
 (require 'init-rust)
+(require 'init-go)
 (require 'init-javascript)
 (require 'init-python)
 (require 'init-solidity)
@@ -196,10 +209,14 @@
   ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
   (setq lsp-keymap-prefix "C-c l")
   :commands (lsp lsp-deferred)
-  :config (add-hook 'lsp-mode-hook 'lsp-ui-mode))
+  :config
+  (add-hook 'lsp-mode-hook 'lsp-ui-mode) )
 (use-package lsp-ui
     :ensure t
-    :commands lsp-ui-mode)
+    :commands lsp-ui-mode
+    :bind (:map lsp-mode-map
+                ("C-M-p" . lsp-ui-find-prev-reference)
+                ("C-M-n" . lsp-ui-find-next-reference)))
 (use-package helm-lsp
     :ensure t
     :commands helm-lsp-workspace-symbol)
@@ -242,6 +259,29 @@
 (use-package ibuffer
   :bind ("C-x C-b" . ibuffer))
 
+(use-package which-key
+  :ensure
+  :init
+  (which-key-mode))
+
+(use-package copilot
+  :load-path (lambda () (expand-file-name "copilot.el" user-emacs-directory))
+  :diminish "‍✈️"
+  :bind (("C-M-<tab>" . copilot-complete)
+         ("C-M-<f12>" . copilot-mode)
+         :map copilot-mode-map
+         ("C-M-<return>" . copilot-accept-completion)
+         ("C-M-<left>" . copilot-next-completion)
+         ("C-M-<up>" . copilot-previous-completion)
+         ("C-M-<right>" . copilot-accept-completion-by-word)
+         ("C-M-<down>" . copilot-accept-completion-by-line)))
+
+(use-package diminish
+  :ensure t
+  :after (lsp-mode lsp-ui)
+  :config
+  (diminish 'lsp-lens-mode " 🔍"))
+
 (message "All done, happy hacking 😺")
 (provide 'init)
 
@@ -251,7 +291,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(git-link magit just-mode toml-mode solidity-flycheck company-lsp lsp-ivy lsp-ui lsp-mode xref-js2 elpy whitespace-cleanup-mode yasnippet web-mode use-package solidity-mode s pyvenv markdown-mode json-mode js2-mode highlight-indentation golint go-guru go-eldoc go-autocomplete flycheck find-file-in-project docker-compose-mode company)))
+   '(csv-mode editorconfig git-link magit just-mode toml-mode solidity-flycheck company-lsp lsp-ivy lsp-ui lsp-mode xref-js2 elpy whitespace-cleanup-mode yasnippet web-mode use-package solidity-mode s pyvenv markdown-mode json-mode js2-mode highlight-indentation golint go-guru go-eldoc go-autocomplete flycheck find-file-in-project docker-compose-mode company)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
